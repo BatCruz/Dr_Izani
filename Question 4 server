@@ -1,0 +1,39 @@
+import socket
+import threading
+import random
+
+QUOTES = [
+    "Eat sand in your own house is better than eat sand in other's house. - Kamilia"
+    "Stop being lazy today because you can be lazy tomorrow. - Nur Ilia"
+    "Dont repeat the same mistake cause there are other mistakes to be made.- Reen Asraf"
+    "If you are lazy, don't be.- Farhanz"
+    "If its expensive, it's actually not, you're just broke. - Hanz Cami"
+]
+
+def get_random_quote():
+    return random.choice(QUOTES)
+
+def handle_client(client_socket):
+    quote = get_random_quote()
+    client_socket.send(quote.encode())
+    client_socket.close()
+
+def main():
+    host = '127.0.0.1'
+    port = 8888
+
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(5)
+
+    print("Server is listening on {}:{}".format(host, port))
+
+    while True:
+        client_socket, client_addr = server_socket.accept()
+        print("Connected to client:", client_addr)
+
+        client_thread = threading.Thread(target=handle_client, args=(client_>
+        client_thread.start()
+
+if __name__ == "__main__":
+    main()
